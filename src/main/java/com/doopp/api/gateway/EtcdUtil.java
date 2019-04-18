@@ -41,7 +41,7 @@ public class EtcdUtil {
                 .putDir(etcdKey + "_" + host + "_" + port)
                 .ttl(60).send();
             p.get(); // 加上这个get()用来保证设置完成，走下一步，get会阻塞，由上面client的retry策略决定阻塞的方式
-            new Thread(new GuardEtcd()).start(); // 启动一个守护线程来定时刷新节点
+            new Thread(new EtcdServiceRefresh()).start(); // 启动一个守护线程来定时刷新节点
         } catch (Exception e) {
             // TODO: handle exception
             System.out.println("etcd Server not available.");
@@ -61,7 +61,8 @@ public class EtcdUtil {
         }
     }
 
-    private class GuardEtcd implements Runnable {
+    public class EtcdServiceRefresh implements Runnable {
+
         @Override
         public void run() {
             // TODO Auto-generated method stub

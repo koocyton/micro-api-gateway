@@ -17,17 +17,8 @@ public class GatewayServer {
         HttpClient httpClient = HttpClient.create();
 
         // 抛出线程监听 etcd ，并刷新 Api Gateway 的路由表
-        new Thread(() -> {
-            while (true) {
-                try {
-                    Thread.sleep(40*1000);
-                    client.refresh(etcdKey + "_" + host + "_" + port, 60).send();
-                } catch (IOException | InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+        EtcdUtil.EtcdServiceRefresh etcdServiceRefresh = new EtcdUtil.EtcdServiceRefresh();
+        new Thread(etcdServiceRefresh).start();
 
         // 启动 API Gateway Server
         DisposableServer disposableServer = HttpServer.create()
