@@ -8,8 +8,6 @@ import reactor.netty.DisposableServer;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.http.server.HttpServer;
 
-import java.io.IOException;
-
 public class GatewayServer {
 
     public static void main(String[] args) {
@@ -17,8 +15,8 @@ public class GatewayServer {
         HttpClient httpClient = HttpClient.create();
 
         // 抛出线程监听 etcd ，并刷新 Api Gateway 的路由表
-        EtcdUtil.EtcdServiceRefresh etcdServiceRefresh = new EtcdUtil.EtcdServiceRefresh();
-        new Thread(etcdServiceRefresh).start();
+        GatewayEtcdUtil gatewayEtcdUtil = new GatewayEtcdUtil();
+        new Thread(gatewayEtcdUtil).start();
 
         // 启动 API Gateway Server
         DisposableServer disposableServer = HttpServer.create()
