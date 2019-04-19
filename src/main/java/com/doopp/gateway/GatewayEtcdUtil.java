@@ -1,4 +1,4 @@
-package com.doopp.api.gateway;
+package com.doopp.gateway;
 
 import mousio.client.retry.RetryOnce;
 import mousio.etcd4j.EtcdClient;

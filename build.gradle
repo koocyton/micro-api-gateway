@@ -1,0 +1,43 @@
+group 'com.doopp.gauss'
+version '1.0'
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+sourceCompatibility = 1.8
+
+repositories {
+    // mavenLocal()
+    // jcenter()
+    // mavenCentral()
+    // maven{ url 'https://oss.sonatype.org/content/groups/public/'}
+    maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+}
+
+dependencies {
+
+    compile 'io.projectreactor.netty:reactor-netty:0.8.6.RELEASE'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+jar {
+    manifest {
+        attributes(
+                "Manifest-Version": 1.0,
+                "Main-Class": "com.doopp.gateway.GatewayServer",
+                "Class-Path": "./"
+        )
+    }
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+}
+task clear(type:Delete){
+    delete 'build','target'
+}
+task release(type: Copy, dependsOn: [clear, jar])

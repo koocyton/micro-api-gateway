@@ -1,4 +1,4 @@
-package com.doopp.api.gateway;
+package com.doopp.gateway;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelOption;
@@ -10,7 +10,6 @@ import reactor.netty.http.server.HttpServer;
 
 import javax.annotation.PreDestroy;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
